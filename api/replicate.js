@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -11,7 +8,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  const replicateResponse = await fetch("https://api.replicate.com/v1/predictions", {
+  const response = await fetch("https://api.replicate.com/v1/predictions", {
     method: "POST",
     headers: {
       Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
@@ -20,6 +17,6 @@ export default async function handler(req, res) {
     body: JSON.stringify(req.body)
   });
 
-  const data = await replicateResponse.json();
-  res.status(replicateResponse.status).json(data);
+  const data = await response.json();
+  res.status(response.status).json(data);
 }
